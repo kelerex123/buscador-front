@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AñadirScreen } from "./components/AñadirScreen";
+import { ModificarScreen } from "./components/ModificarScreen";
+import { Navbar } from "./components/Navbar";
+import { TablaScreen } from "./components/TablaScreen";
+import React from "react";
+import { useState } from "react";
 
-function App() {
+export const ProductsContext = React.createContext();
+
+const App = () => {
+
+  const [products, setProducts] = useState([])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      
+      <Navbar />
+      <div className="container">
+
+      <ProductsContext.Provider value={{products,setProducts}}>
+        <Routes>
+          <Route path="/tabla" element={<TablaScreen />} />
+          <Route path="/anadir" element={<AñadirScreen />} />
+          <Route path="/modificar/:id" element={<ModificarScreen />} />
+          <Route path='*' element={<Navigate replace to='/tabla' />}/>
+        </Routes>
+      </ProductsContext.Provider>
+      </div>
+
+    </>
+    
+
+
   );
 }
 
